@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Calculator</title>
+</head>
+<body>
+Enter Calculations:<br>
+<textarea id="input" rows="20" cols="50">
+
+(12 % 7) * (3 + 2)
+
+ 
+</textarea><br>
+<button id="calculate">Calculate</button>
+<pre id="output"></pre>
+<script>
+	if (!Object.create) {
+		Object.create = function (o) {
+			function F() { }
+			F.prototype = o;
+			return new F();
+		};
+	}
+</script>
+<script src="lexer.js"></script>
+<script src="parser.js"></script>
+<script src="evaluator.js"></script>
+<script>
+	var calculate = function (input) {
+		try {
+			var tokens = lex(input);
+			console.log(tokens);
+			var parseTree = parse(tokens);
+			console.log(parseTree);
+			var output = evaluate(parseTree);
+			return output;
+		} catch (e) {
+			return e;
+		}
+	};
+
+	document.getElementById("calculate").onclick = function () {
+		var input = document.getElementById("input").value;
+		output = calculate(input);
+		document.getElementById("output").innerHTML = output;
+	};
+</script>
+</body>
+</html>
